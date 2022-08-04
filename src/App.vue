@@ -1,6 +1,39 @@
 <template>
   <div id="app">
     <div id="nav">
+      <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#" disabled>YumTum</b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item :to="{ name: 'main' }">Main</b-nav-item>
+            <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
+            <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+          </b-navbar-nav>
+
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>hello guest</em>
+              </template>
+              <b-dropdown-item :to="{ name: 'login' }">Login</b-dropdown-item>
+              <b-dropdown-item :to="{ name: 'register' }"
+                >Register</b-dropdown-item
+              >
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+          <!-- <span v-else>
+            {{ $root.store.username }}: <button @click="Logout">Logout</button>
+          </span> -->
+        </b-collapse>
+      </b-navbar>
+    </div>
+
+    <!-- <div id="nav">
       <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
       {{ !$root.store.username }}
@@ -12,7 +45,7 @@
       <span v-else>
         {{ $root.store.username }}: <button @click="Logout">Logout</button>|
       </span>
-    </div>
+    </div> -->
     <router-view />
   </div>
 </template>
@@ -28,8 +61,8 @@ export default {
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
