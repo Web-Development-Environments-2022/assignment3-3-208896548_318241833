@@ -25,6 +25,9 @@
           <div class="wrapped">
             Instructions:
             <ol>
+              <!-- {{
+                recipe._instructions
+              }} -->
               <li v-for="s in recipe._instructions" :key="s.number">
                 {{ s.step }}
               </li>
@@ -80,8 +83,16 @@ export default {
         glutenFree,
         extendedIngredients,
         instructions,
+        analyzedInstructions,
         servings,
       } = response.data;
+
+      let _instructions = analyzedInstructions
+        .map((fstep) => {
+          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+          return fstep.steps;
+        })
+        .reduce((a, b) => [...a, ...b], []);
 
       let _recipe = {
         id,
@@ -94,6 +105,8 @@ export default {
         glutenFree,
         extendedIngredients,
         instructions,
+        _instructions,
+        analyzedInstructions,
         servings,
       };
 

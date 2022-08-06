@@ -13,6 +13,24 @@
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.aggregateLikes }} likes</li>
+        <img
+          v-if="recipe.vegan"
+          width="50"
+          height="50"
+          src="https://png.monster/wp-content/uploads/2022/03/png.monster-25.png"
+        />
+        <img
+          v-if="recipe.vegetarian"
+          width="50"
+          height="50"
+          src="https://cdn0.iconfinder.com/data/icons/eco-food-and-cosmetic-labels/128/Artboard_45--2-512.png"
+        />
+        <img
+          v-if="recipe.glutenFree"
+          width="50"
+          height="50"
+          src="https://cdn-icons-png.flaticon.com/512/1488/1488167.png"
+        />
       </ul>
     </div>
   </router-link>
