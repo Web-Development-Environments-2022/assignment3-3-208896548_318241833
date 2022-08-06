@@ -26,26 +26,19 @@
               >
             </b-nav-item-dropdown>
           </b-navbar-nav>
-          <!-- <span v-else>
-            {{ $root.store.username }}: <button @click="Logout">Logout</button>
-          </span> -->
+          <b-navbar-nav class="ml-auto" v-else>
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>{{ $root.store.username }}</em>
+              </template>
+              <b-dropdown-item @click="Logout">Logout</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
 
-    <!-- <div id="nav">
-      <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
-      <router-link :to="{ name: 'search' }">Search</router-link>|
-      {{ !$root.store.username }}
-      <span v-if="!$root.store.username">
-        Guest:
-        <router-link :to="{ name: 'register' }">Register</router-link>|
-        <router-link :to="{ name: 'login' }">Login</router-link>|
-      </span>
-      <span v-else>
-        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
-      </span>
-    </div> -->
     <router-view />
   </div>
 </template>

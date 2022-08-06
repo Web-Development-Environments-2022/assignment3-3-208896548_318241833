@@ -27,14 +27,14 @@ export default {
   },
   data() {
     return {
-      image_load: false
+      image_load: false,
     };
   },
   props: {
     recipe: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
 
     // id: {
     //   type: Number,
@@ -59,7 +59,7 @@ export default {
     //     return undefined;
     //   }
     // }
-  }
+  },
 };
 </script>
 

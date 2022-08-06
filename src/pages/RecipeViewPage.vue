@@ -45,7 +45,7 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
     };
   },
   async created() {
@@ -58,7 +58,7 @@ export default {
           // "https://test-for-3-2.herokuapp.com/recipes/info",
           this.$root.store.server_domain + "/recipes/info",
           {
-            params: { id: this.$route.params.recipeId }
+            params: { id: this.$route.params.recipeId },
           }
         );
 
@@ -77,7 +77,7 @@ export default {
         aggregateLikes,
         readyInMinutes,
         image,
-        title
+        title,
       } = response.data.recipe;
 
       let _instructions = analyzedInstructions
@@ -95,14 +95,14 @@ export default {
         aggregateLikes,
         readyInMinutes,
         image,
-        title
+        title,
       };
 
       this.recipe = _recipe;
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 };
 </script>
 
