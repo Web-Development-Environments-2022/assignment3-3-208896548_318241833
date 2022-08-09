@@ -126,6 +126,9 @@
         >
           Have length between 5-10 characters long
         </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.password.valid">
+          Contain at least one number and speacial character
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
@@ -234,6 +237,11 @@ export default {
       password: {
         required,
         length: (p) => minLength(5)(p) && maxLength(10)(p),
+        valid: function(value) {
+          const containsNumber = /[0-9]/.test(value);
+          const containsSpecial = /[#?!@$%^&*-]/.test(value);
+          return containsNumber && containsSpecial;
+        },
       },
       confirmedPassword: {
         required,

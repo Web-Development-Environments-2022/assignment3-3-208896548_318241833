@@ -1,52 +1,72 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
+  <div>
+    <router-link
+      :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+      class="recipe-preview"
+    >
+      <div class="recipe-body">
+        <img :src="recipe.image" class="recipe-image" />
       </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-        <img
-          v-if="recipe.vegan"
-          width="50"
-          height="50"
-          src="https://png.monster/wp-content/uploads/2022/03/png.monster-25.png"
-        />
-        <img
-          v-if="recipe.vegetarian"
-          width="50"
-          height="50"
-          src="https://cdn0.iconfinder.com/data/icons/eco-food-and-cosmetic-labels/128/Artboard_45--2-512.png"
-        />
-        <img
-          v-if="recipe.glutenFree"
-          width="50"
-          height="50"
-          src="https://cdn-icons-png.flaticon.com/512/1488/1488167.png"
-        />
-      </ul>
+      <div class="recipe-footer">
+        <div :title="recipe.title" class="recipe-title">
+          {{ recipe.title }}
+        </div>
+        <ul class="recipe-overview">
+          <li>{{ recipe.readyInMinutes }} minutes</li>
+          <li>{{ recipe.aggregateLikes }} likes</li>
+          <img
+            v-if="recipe.vegan"
+            width="50"
+            height="50"
+            src="https://png.monster/wp-content/uploads/2022/03/png.monster-25.png"
+          />
+          <img
+            v-if="recipe.vegetarian"
+            width="50"
+            height="50"
+            src="https://cdn0.iconfinder.com/data/icons/eco-food-and-cosmetic-labels/128/Artboard_45--2-512.png"
+          />
+          <img
+            v-if="recipe.glutenFree"
+            width="50"
+            height="50"
+            src="https://cdn-icons-png.flaticon.com/512/1488/1488167.png"
+          />
+        </ul>
+      </div>
+    </router-link>
+    <div v-if="$root.store.username">
+      <img
+        @click="AddToFavorites"
+        width="35"
+        height="35"
+        src="https://icon-library.com/images/favorite-icon-png/favorite-icon-png-1.jpg"
+      />
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
 export default {
-  mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
-      this.image_load = true;
-    });
-  },
-  data() {
-    return {
-      image_load: false,
-    };
+  methods: {
+    async AddToFavorites() {
+      try {
+        const response = await this.axios.post(
+          this.$root.store.server_domain + "/users/favorites",
+          {
+            recipeId: this.recipe.id,
+            withCredentials: true,
+          }
+        );
+
+        console.log(response);
+        // this.$root.store.login(this.form.username);
+        // this.$router.push("/");
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+    },
   },
   props: {
     recipe: {

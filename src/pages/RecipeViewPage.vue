@@ -12,7 +12,7 @@
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
             </div>
-            Ingredients:
+            Ingredients for {{ recipe.servings }} servings:
             <ul>
               <li
                 v-for="(r, index) in recipe.extendedIngredients"
