@@ -24,6 +24,26 @@ export default {
       type: String,
       required: true,
     },
+    searchQuery: {
+      type: String,
+      required: false,
+    },
+    amount: {
+      type: String,
+      required: false,
+    },
+    cuisine: {
+      type: String,
+      required: false,
+    },
+    diet: {
+      type: String,
+      required: false,
+    },
+    intolerance: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -35,6 +55,13 @@ export default {
   },
   methods: {
     async updateRecipes() {
+      if (this.title == "Randome Recipes") {
+        await this.randomRecipes();
+      } else if (this.title == "Search Results") {
+        await this.searchRecipes();
+      }
+    },
+    async randomRecipes() {
       try {
         const response = await this.axios.get(
           this.$root.store.server_domain + "/recipes/random"
@@ -43,6 +70,34 @@ export default {
 
         // console.log(response);
         const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        // console.log(this.recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async searchRecipes() {
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain +
+            "/recipes/search" +
+            "?query=" +
+            this.searchQuery +
+            "&amount=" +
+            this.amount +
+            "&cuisine=" +
+            this.cuisine +
+            "&diet=" +
+            this.diet +
+            "&intolerance=" +
+            this.intolerance
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+        );
+
+        // console.log(response);
+        // console.log(response.data.results);
+        const recipes = response.data.results;
         this.recipes = [];
         this.recipes.push(...recipes);
         // console.log(this.recipes);

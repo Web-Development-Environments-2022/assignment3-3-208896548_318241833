@@ -4,6 +4,9 @@
     <br />
     <h3>Search by recipe\dish:</h3>
     <b-form-input v-model="text" placeholder="Enter your search"></b-form-input>
+    <div v-if="$root.store.username">
+      Last search: {{ $root.store.lastSearch }}
+    </div>
     <!-- <div class="mt-2">Value: {{ text }}</div> -->
     <br />
     <b-form-select
@@ -28,10 +31,19 @@
     ></b-form-select>
     <br />
     <br />
-    <b-button variant="primary">Search</b-button>
+    <b-button variant="primary" @click="searchButtom">Search</b-button>
     <br />
     <br />
-
+    <RecipePreviewList
+      title="Search Results"
+      :blur="!$root.store.username"
+      :key="lastSearch"
+      :searchQuery="text"
+      :amount="selected_size"
+      :cuisine="selected_cuisines"
+      :diet="selected_diets"
+      :intolerance="selected_intolerances"
+    />
     <br />
     <br />
     <!-- Selected: <strong>{{ selected }}</strong> -->
@@ -42,10 +54,12 @@
 import cuisines from "../assets/cuisines";
 import diets from "../assets/diets";
 import intolerances from "../assets/intolerances";
+import RecipePreviewList from "../components/RecipePreviewList";
 export default {
   data() {
     return {
       text: "",
+      lastSearch: "no last search",
       selected_size: "5",
       options_size: [
         { item: "5", name: "5 search results" },
@@ -64,6 +78,18 @@ export default {
     this.cuisines.push(...cuisines);
     this.diets.push(...diets);
     this.intolerances.push(...intolerances);
+  },
+  methods: {
+    searchButtom() {
+      // console.log(this.text);
+      this.lastSearch = this.text;
+      if (this.$root.store.username) {
+        this.$root.store.lastSearch = this.text;
+      }
+    },
+  },
+  components: {
+    RecipePreviewList,
   },
 };
 </script>

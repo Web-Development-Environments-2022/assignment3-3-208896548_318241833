@@ -68,6 +68,7 @@ Vue.config.productionTip = false;
 
 const shared_data = {
   server_domain: "https://yumtum.cs.bgu.ac.il",
+  lastSearch: "no last search",
   username: localStorage.username,
   login(username) {
     localStorage.setItem("username", username);
