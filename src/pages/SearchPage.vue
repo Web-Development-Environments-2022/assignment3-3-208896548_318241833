@@ -17,6 +17,14 @@
       text-field="name"
       disabled-field="notEnabled"
     ></b-form-select>
+    <b-form-select
+      v-model="selected_sort"
+      :options="options_sort"
+      class="mb-3"
+      value-field="item"
+      text-field="name"
+      disabled-field="notEnabled"
+    ></b-form-select>
     <br />
     <b-form-select
       v-model="selected_cuisines"
@@ -37,12 +45,13 @@
     <RecipePreviewList
       title="Search Results"
       :blur="!$root.store.username"
-      :key="lastSearch"
+      :key="flop"
       :searchQuery="text"
       :amount="selected_size"
       :cuisine="selected_cuisines"
       :diet="selected_diets"
       :intolerance="selected_intolerances"
+      :sort="selected_sort"
     />
     <br />
     <br />
@@ -56,17 +65,22 @@ import diets from "../assets/diets";
 import intolerances from "../assets/intolerances";
 import RecipePreviewList from "../components/RecipePreviewList";
 
-Vue.use(ScrollDiv);
+// Vue.use(ScrollDiv);
 export default {
   data() {
     return {
       text: "",
-      lastSearch: "no last search",
+      flop: false,
       selected_size: "5",
       options_size: [
         { item: "5", name: "5 search results" },
         { item: "10", name: "10 search results" },
         { item: "15", name: "15 search results" },
+      ],
+      selected_sort: "popularity",
+      options_sort: [
+        { item: "popularity", name: "sort by popularity" },
+        { item: "time", name: "sort by cooking time" },
       ],
       cuisines: [{ value: null, text: "", disabled: true }],
       selected_cuisines: "Any cuisine",
@@ -84,10 +98,9 @@ export default {
   methods: {
     searchButtom() {
       // console.log(this.text);
-      this.lastSearch = this.text;
-      if (this.$root.store.username) {
-        this.$root.store.lastSearch = this.text;
-      }
+      this.flop = !this.flop;
+      localStorage.setItem("lastSearch", this.text);
+      this.$root.store.lastSearch = this.text;
     },
   },
   components: {

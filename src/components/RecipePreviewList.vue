@@ -44,6 +44,10 @@ export default {
       type: String,
       required: false,
     },
+    sort: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -91,7 +95,9 @@ export default {
             "&diet=" +
             this.diet +
             "&intolerance=" +
-            this.intolerance
+            this.intolerance +
+            "&sort=" +
+            this.sort
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
 

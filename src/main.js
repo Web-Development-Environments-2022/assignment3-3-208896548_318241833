@@ -68,17 +68,21 @@ Vue.config.productionTip = false;
 
 const shared_data = {
   server_domain: "https://yumtum.cs.bgu.ac.il",
-  lastSearch: "no last search",
+  lastSearch: localStorage.lastSearch,
   username: localStorage.username,
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
+    localStorage.setItem("lastSearch", "no last search");
+    this.lastSearch = "no last search";
   },
   logout() {
     console.log("logout");
     localStorage.removeItem("username");
     this.username = undefined;
+    localStorage.removeItem("lastSearch");
+    this.lastSearch = "no last search";
   },
 };
 console.log(shared_data);
