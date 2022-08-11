@@ -55,6 +55,8 @@ import cuisines from "../assets/cuisines";
 import diets from "../assets/diets";
 import intolerances from "../assets/intolerances";
 import RecipePreviewList from "../components/RecipePreviewList";
+
+Vue.use(ScrollDiv);
 export default {
   data() {
     return {
