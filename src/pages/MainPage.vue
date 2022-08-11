@@ -1,9 +1,16 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button"
-      >You need to Login to vue this</router-link
+    <RecipePreviewList
+      title="Explore this recipes"
+      class="RandomRecipes center"
+    />
+    <router-link
+      v-if="!$root.store.username"
+      to="/login"
+      tag="button"
+      class="btn btn-primary"
+      >You need to Login to view this</router-link
     >
     <!-- {{ !$root.store.username }} -->
 
@@ -34,6 +41,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn-primary {
+  width: 50%;
+  position: relative;
+  left: 25%;
+  right: 25%;
+}
 .RandomRecipes {
   margin: 10px 0 10px;
 }

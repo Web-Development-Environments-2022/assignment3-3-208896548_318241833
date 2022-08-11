@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <b-navbar toggleable="lg" type="dark" variant="info" id="navb">
-        <b-navbar-brand href="#" disabled>YumTum</b-navbar-brand>
+      <b-navbar toggleable="lg" type="light" variant="info" id="navb">
+        <b-navbar-brand id="nav-brand" href="#" disabled>YumTum</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -106,6 +106,20 @@ export default {
 #nav {
   padding: 30px;
   color: rgb(51, 232, 220);
+}
+#navb {
+  border-radius: 10%;
+  border-style: dotted;
+}
+#nav-brand {
+  background-color: rgb(51, 232, 220);
+  border-radius: 5%;
+  border-style: dotted;
+}
+#nav-collapse {
+  background-color: rgb(51, 232, 220);
+  border-radius: 5%;
+  border-style: dotted;
 }
 
 #nav a {

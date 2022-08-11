@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     async updateRecipes() {
-      if (this.title == "Randome Recipes") {
+      if (this.title == "Explore this recipes") {
         await this.randomRecipes();
       } else if (this.title == "Search Results") {
         await this.searchRecipes();
