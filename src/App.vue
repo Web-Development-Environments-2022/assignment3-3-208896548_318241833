@@ -26,9 +26,9 @@
                 >Family recipes</b-dropdown-item
               >
             </b-nav-item-dropdown>
-            <b-nav-item v-if="$root.store.username" :to="{ name: 'create' }"
+            <!-- <b-nav-item v-b-modal.create-recipe v-if="$root.store.username"
               >Create recipe</b-nav-item
-            >
+            > -->
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -55,8 +55,10 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
+      <!-- <b-modal id="create-recipe" class="attachToDocument: true"
+        >Hello From My Modal!</b-modal
+      > -->
     </div>
-
     <router-view />
   </div>
 </template>

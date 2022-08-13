@@ -4,7 +4,12 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <div v-if="this.title != 'Search Results'">
+    <div v-if="recipes.length == 0">
+      <h3>
+        No results found
+      </h3>
+    </div>
+    <div v-else-if="this.title != 'Search Results'">
       <b-row>
         <b-col v-for="c in recipes" :key="c.id">
           <RecipePreview class="recipePreview" :recipe="c" />
@@ -57,6 +62,10 @@ export default {
       type: String,
       required: false,
     },
+    sortDirection: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -106,7 +115,9 @@ export default {
             "&intolerance=" +
             this.intolerance +
             "&sort=" +
-            this.sort
+            this.sort +
+            "&sortDirection=" +
+            this.sortDirection
         );
 
         // console.log(response);

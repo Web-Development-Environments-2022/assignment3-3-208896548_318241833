@@ -12,10 +12,12 @@
         </template>
 
         <b-card-body>
-          <b-card-title>Card Title</b-card-title>
           <b-card-text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Software & Information Systems Engineering student at Ben-Gurion
+            University of the Negev. Always had a passion for new technologies,
+            love solving Logic puzzles and programming problems. Always looking
+            for the Optimal way to do basically everything in my life. Eager to
+            learn more and improve my skills in the fields of Data Science.
           </b-card-text>
         </b-card-body>
 
@@ -45,10 +47,11 @@
         </template>
 
         <b-card-body>
-          <b-card-title>Card Title</b-card-title>
           <b-card-text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Software & Information Systems Engineering student at Ben-Gurion
+            University of the Negev.Self learner with highly motivated to learn
+            new stuffs. Experienced in integrating natural language in robot
+            interface at "Robotican".
           </b-card-text>
         </b-card-body>
 

@@ -42,17 +42,20 @@
     <b-button variant="primary" @click="searchButtom">Search</b-button>
     <br />
     <br />
-    <RecipePreviewList
-      title="Search Results"
-      :blur="!$root.store.username"
-      :key="flop"
-      :searchQuery="text"
-      :number="selected_size"
-      :cuisine="selected_cuisines"
-      :diet="selected_diets"
-      :intolerance="selected_intolerances"
-      :sort="selected_sort"
-    />
+    <div v-if="flop > 0">
+      <RecipePreviewList
+        title="Search Results"
+        :blur="!$root.store.username"
+        :key="flop"
+        :searchQuery="text"
+        :number="selected_size"
+        :cuisine="selected_cuisines"
+        :diet="selected_diets"
+        :intolerance="selected_intolerances"
+        :sort="selected_sort"
+        :sortDirection="sortDirection"
+      />
+    </div>
     <br />
     <br />
     <!-- Selected: <strong>{{ selected }}</strong> -->
@@ -65,12 +68,12 @@ import diets from "../assets/diets";
 import intolerances from "../assets/intolerances";
 import RecipePreviewList from "../components/RecipePreviewList";
 
-// Vue.use(ScrollDiv);
 export default {
   data() {
     return {
       text: "",
-      flop: false,
+      flop: 0,
+      sortDirection: "desc",
       selected_size: "5",
       options_size: [
         { item: "5", name: "5 search results" },
@@ -98,9 +101,19 @@ export default {
   methods: {
     searchButtom() {
       // console.log(this.text);
-      this.flop = !this.flop;
+      if (this.text == "") {
+        this.flop = 0;
+      } else {
+        this.flop += 1;
+      }
       localStorage.setItem("lastSearch", this.text);
       this.$root.store.lastSearch = this.text;
+
+      if (this.selected_sort == "popularity") {
+        this.sortDirection = "desc";
+      } else {
+        this.sortDirection = "asc";
+      }
     },
   },
   components: {
