@@ -47,7 +47,7 @@
       :blur="!$root.store.username"
       :key="flop"
       :searchQuery="text"
-      :amount="selected_size"
+      :number="selected_size"
       :cuisine="selected_cuisines"
       :diet="selected_diets"
       :intolerance="selected_intolerances"

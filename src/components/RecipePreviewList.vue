@@ -4,11 +4,20 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
-      </b-col>
-    </b-row>
+    <div v-if="this.title != 'Search Results'">
+      <b-row>
+        <b-col v-for="c in recipes" :key="c.id">
+          <RecipePreview class="recipePreview" :recipe="c" />
+        </b-col>
+      </b-row>
+    </div>
+    <div v-else>
+      <b-row v-for="r in recipes" :key="r.id">
+        <b-col v-for="c in r" :key="c.id">
+          <RecipePreview class="recipePreview" :recipe="c" />
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
@@ -28,7 +37,7 @@ export default {
       type: String,
       required: false,
     },
-    amount: {
+    number: {
       type: String,
       required: false,
     },
@@ -88,8 +97,8 @@ export default {
             "/recipes/search" +
             "?query=" +
             this.searchQuery +
-            "&amount=" +
-            this.amount +
+            "&number=" +
+            this.number +
             "&cuisine=" +
             this.cuisine +
             "&diet=" +
@@ -98,14 +107,23 @@ export default {
             this.intolerance +
             "&sort=" +
             this.sort
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
 
         // console.log(response);
         // console.log(response.data.results);
         const recipes = response.data.results;
+        // console.log(recipes);
         this.recipes = [];
         this.recipes.push(...recipes);
+
+        let res = [];
+        const chunkSize = 3;
+        while (this.recipes.length > 0) {
+          const chunk = this.recipes.splice(0, chunkSize);
+          res.push(chunk);
+        }
+        // console.log(res);
+        this.recipes = res;
         // console.log(this.recipes);
       } catch (error) {
         console.log(error);

@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div v-if="$root.store.username">
+      <img
+        @click="AddToFavorites"
+        width="35"
+        height="35"
+        src="https://icon-library.com/images/favorite-icon-png/favorite-icon-png-1.jpg"
+      />
+    </div>
     <router-link
       :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
       class="recipe-preview"
@@ -35,14 +43,6 @@
         </ul>
       </div>
     </router-link>
-    <div v-if="$root.store.username">
-      <img
-        @click="AddToFavorites"
-        width="35"
-        height="35"
-        src="https://icon-library.com/images/favorite-icon-png/favorite-icon-png-1.jpg"
-      />
-    </div>
   </div>
 </template>
 
@@ -55,7 +55,7 @@ export default {
           this.$root.store.server_domain + "/users/favorites",
           {
             recipeId: this.recipe.id,
-            withCredentials: true,
+            // withCredentials: true,
           }
         );
 
@@ -104,8 +104,8 @@ export default {
 <style scoped>
 .recipe-preview {
   display: inline-block;
-  width: 90%;
-  height: 100%;
+  width: 300px;
+  height: 200px;
   position: relative;
   margin: 10px 10px;
 }
@@ -122,7 +122,7 @@ export default {
   margin-bottom: auto;
   display: block;
   width: 98%;
-  height: auto;
+  height: 98%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
