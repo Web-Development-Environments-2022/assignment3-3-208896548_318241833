@@ -9,7 +9,7 @@
         No results found
       </h3>
     </div>
-    <div v-else-if="this.title != 'Search Results'">
+    <div v-else-if="this.title == 'Explore this recipes'">
       <b-row>
         <b-col v-for="c in recipes" :key="c.id">
           <RecipePreview class="recipePreview" :recipe="c" />
@@ -81,6 +81,8 @@ export default {
         await this.randomRecipes();
       } else if (this.title == "Search Results") {
         await this.searchRecipes();
+      } else if (this.title == "Family Recipes") {
+        await this.familyRecipes();
       }
     },
     async randomRecipes() {
@@ -95,6 +97,30 @@ export default {
         this.recipes = [];
         this.recipes.push(...recipes);
         // console.log(this.recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async familyRecipes() {
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/recipes/family"
+        );
+
+        // console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        // console.log(this.recipes);
+
+        let res = [];
+        const chunkSize = 2;
+        while (this.recipes.length > 0) {
+          const chunk = this.recipes.splice(0, chunkSize);
+          res.push(chunk);
+        }
+        // console.log(res);
+        this.recipes = res;
       } catch (error) {
         console.log(error);
       }

@@ -2,6 +2,7 @@
   <div>
     <div v-if="$root.store.username">
       <img
+        v-if="!isNaN(recipe.aggregateLikes)"
         @click="AddToFavorites"
         width="35"
         height="35"
@@ -21,7 +22,9 @@
         </div>
         <ul class="recipe-overview">
           <li>{{ recipe.readyInMinutes }} minutes</li>
-          <li>{{ recipe.aggregateLikes }} likes</li>
+          <li v-if="!isNaN(recipe.aggregateLikes)">
+            {{ recipe.aggregateLikes }} likes
+          </li>
           <img
             v-if="recipe.vegan"
             width="50"

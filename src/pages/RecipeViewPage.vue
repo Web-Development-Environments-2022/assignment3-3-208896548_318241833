@@ -55,7 +55,7 @@ export default {
     try {
       let response;
       // response = this.$route.params.response;
-
+      // console.log(response);
       try {
         response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/recipes/info",
