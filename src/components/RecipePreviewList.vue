@@ -10,9 +10,9 @@
       </h3>
     </div>
     <div v-else-if="this.title == 'Explore this recipes'">
-      <b-row>
-        <b-col v-for="c in recipes" :key="c.id">
-          <RecipePreview class="recipePreview" :recipe="c" />
+      <b-row v-for="r in recipes" :key="r.id">
+        <b-col>
+          <RecipePreview class="recipePreview" :recipe="r" />
         </b-col>
       </b-row>
     </div>
