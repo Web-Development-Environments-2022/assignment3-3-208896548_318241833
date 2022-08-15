@@ -14,7 +14,7 @@
             <b-nav-item-dropdown v-if="$root.store.username">
               <!-- Using 'button-content' slot -->
               <template #button-content>
-                <em>personal</em>
+                <em>Personal</em>
               </template>
               <b-dropdown-item :to="{ name: 'favorites' }"
                 >Favorites recipes</b-dropdown-item
@@ -26,10 +26,121 @@
                 >Family recipes</b-dropdown-item
               >
             </b-nav-item-dropdown>
-            <!-- <b-nav-item v-b-modal.create-recipe v-if="$root.store.username"
-              >Create recipe</b-nav-item
-            > -->
+            <b-nav-item v-b-modal.create v-if="$root.store.username"
+              >Create Recipe</b-nav-item
+            >
           </b-navbar-nav>
+          <b-modal
+            id="create"
+            title="Create Recipe"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleOk"
+          >
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+              <b-form-group
+                label="title"
+                label-for="title-input"
+                invalid-feedback="Title is required"
+                :state="titleState"
+              >
+                <b-form-input
+                  id="title-input"
+                  :state="titleState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label="ready in X minutes"
+                label-for="readyInMinutes-input"
+                invalid-feedback="readyInMinutes is required"
+                :state="readyInMinutesState"
+              >
+                <b-form-input
+                  id="readyInMinutes-input"
+                  :state="readyInMinutesState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label="image"
+                label-for="image-input"
+                invalid-feedback="image is required"
+                :state="imageState"
+              >
+                <b-form-input
+                  id="image-input"
+                  :state="imageState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group label="vegan ?" label-for="vegan-input">
+                <b-form-checkbox
+                  id="vegan-input"
+                  value="true"
+                  unchecked-value="false"
+                ></b-form-checkbox>
+              </b-form-group>
+
+              <b-form-group label="vegetarian ?" label-for="vegetarian-input">
+                <b-form-checkbox
+                  id="vegetarian-input"
+                  value="true"
+                  unchecked-value="false"
+                ></b-form-checkbox>
+              </b-form-group>
+
+              <b-form-group label="gluten free ?" label-for="glutenFree-input">
+                <b-form-checkbox
+                  id="glutenFree-input"
+                  value="true"
+                  unchecked-value="false"
+                ></b-form-checkbox>
+              </b-form-group>
+
+              <b-form-group
+                label="ingredients"
+                label-for="extendedIngredients-input"
+                invalid-feedback="ingredients is required"
+                :state="extendedIngredientsState"
+              >
+                <b-form-textarea
+                  id="extendedIngredients-input"
+                  :state="extendedIngredientsState"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+
+              <b-form-group
+                label="instructions"
+                label-for="instructions-input"
+                invalid-feedback="instructions is required"
+                :state="instructionsState"
+              >
+                <b-form-textarea
+                  id="instructions-input"
+                  :state="instructionsState"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+
+              <b-form-group
+                label="servings"
+                label-for="servings-input"
+                invalid-feedback="servings is required"
+                :state="servingsState"
+              >
+                <b-form-input
+                  id="servings-input"
+                  :state="servingsState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+            </form>
+          </b-modal>
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
             <b-nav-item-dropdown right>
@@ -54,9 +165,6 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <!-- <b-modal id="create-recipe" class="attachToDocument: true"
-        >Hello From My Modal!</b-modal
-      > -->
     </div>
     <router-view />
   </div>
@@ -65,7 +173,61 @@
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      titleState: null,
+      readyInMinutesState: null,
+      imageState: null,
+      veganState: null,
+      vegetarianState: null,
+      glutenFreeState: null,
+      extendedIngredientsState: null,
+      instructionsState: null,
+      servingsState: null,
+    };
+  },
   methods: {
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.titleState = valid;
+      this.readyInMinutesState = valid;
+      this.imageState = valid;
+      this.veganState = valid;
+      this.vegetarianState = valid;
+      this.glutenFreeState = valid;
+      this.extendedIngredientsState = valid;
+      this.instructionsState = valid;
+      this.servingsState = valid;
+      return valid;
+    },
+    resetModal() {
+      this.titleState = null;
+      this.readyInMinutesState = null;
+      this.imageState = null;
+      this.veganState = null;
+      this.vegetarianState = null;
+      this.glutenFreeState = null;
+      this.extendedIngredientsState = null;
+      this.instructionsState = null;
+      this.servingsState = null;
+    },
+    handleOk(bvModalEvent) {
+      // Prevent modal from closing
+      bvModalEvent.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("create");
+        this.resetModal();
+      });
+    },
     Logout() {
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");

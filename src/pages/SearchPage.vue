@@ -42,12 +42,12 @@
     <b-button variant="primary" @click="searchButtom">Search</b-button>
     <br />
     <br />
-    <div v-if="flop > 0">
+    <div v-if="$root.store.username || flop > 0">
       <RecipePreviewList
         title="Search Results"
         :blur="!$root.store.username"
         :key="flop"
-        :searchQuery="text"
+        :searchQuery="$root.store.lastSearch"
         :number="selected_size"
         :cuisine="selected_cuisines"
         :diet="selected_diets"
