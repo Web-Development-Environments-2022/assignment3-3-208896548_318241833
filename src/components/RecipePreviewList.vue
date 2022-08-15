@@ -83,6 +83,10 @@ export default {
         await this.searchRecipes();
       } else if (this.title == "Family Recipes") {
         await this.familyRecipes();
+      } else if (this.title == "My Favorite Recipes") {
+        await this.favoriteRecipes();
+      } else if (this.title == "My Recipes") {
+        await this.myRecipes();
       }
     },
     async randomRecipes() {
@@ -124,6 +128,52 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    async favoriteRecipes() {
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/favorites"
+        );
+
+        console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        // console.log(this.recipes);
+
+        let res = [];
+        const chunkSize = 3;
+        while (this.recipes.length > 0) {
+          const chunk = this.recipes.splice(0, chunkSize);
+          res.push(chunk);
+        }
+        // console.log(res);
+        this.recipes = res;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async myRecipes() {
+      // try {
+      //   const response = await this.axios.get(
+      //     this.$root.store.server_domain + "/users/favorites"
+      //   );
+      //   console.log(response);
+      //   const recipes = response.data;
+      //   this.recipes = [];
+      //   this.recipes.push(...recipes);
+      //   // console.log(this.recipes);
+      //   let res = [];
+      //   const chunkSize = 3;
+      //   while (this.recipes.length > 0) {
+      //     const chunk = this.recipes.splice(0, chunkSize);
+      //     res.push(chunk);
+      //   }
+      //   // console.log(res);
+      //   this.recipes = res;
+      // } catch (error) {
+      //   console.log(error);
+      // }
     },
     async searchRecipes() {
       try {

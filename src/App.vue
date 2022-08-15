@@ -30,7 +30,6 @@
               >Create recipe</b-nav-item
             > -->
           </b-navbar-nav>
-
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
             <b-nav-item-dropdown right>
@@ -60,6 +59,13 @@
       > -->
     </div>
     <router-view />
+    <div>
+      <!-- Using value -->
+      <b-button v-b-modal="'my-modal'">Show Modal</b-button>
+
+      <!-- The modal -->
+      <b-modal id="my-modal">Hello From My Modal!</b-modal>
+    </div>
   </div>
 </template>
 
