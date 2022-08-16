@@ -154,26 +154,26 @@ export default {
       }
     },
     async myRecipes() {
-      // try {
-      //   const response = await this.axios.get(
-      //     this.$root.store.server_domain + "/users/favorites"
-      //   );
-      //   console.log(response);
-      //   const recipes = response.data;
-      //   this.recipes = [];
-      //   this.recipes.push(...recipes);
-      //   // console.log(this.recipes);
-      //   let res = [];
-      //   const chunkSize = 3;
-      //   while (this.recipes.length > 0) {
-      //     const chunk = this.recipes.splice(0, chunkSize);
-      //     res.push(chunk);
-      //   }
-      //   // console.log(res);
-      //   this.recipes = res;
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/addRecipe"
+        );
+        console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        // console.log(this.recipes);
+        let res = [];
+        const chunkSize = 3;
+        while (this.recipes.length > 0) {
+          const chunk = this.recipes.splice(0, chunkSize);
+          res.push(chunk);
+        }
+        // console.log(res);
+        this.recipes = res;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async searchRecipes() {
       try {

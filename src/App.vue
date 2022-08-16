@@ -46,6 +46,7 @@
               >
                 <b-form-input
                   id="title-input"
+                  v-model="title"
                   :state="titleState"
                   required
                 ></b-form-input>
@@ -59,19 +60,21 @@
               >
                 <b-form-input
                   id="readyInMinutes-input"
+                  v-model="readyInMinutes"
                   :state="readyInMinutesState"
                   required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
-                label="image"
+                label="image url"
                 label-for="image-input"
                 invalid-feedback="image is required"
                 :state="imageState"
               >
                 <b-form-input
                   id="image-input"
+                  v-model="image"
                   :state="imageState"
                   required
                 ></b-form-input>
@@ -80,24 +83,27 @@
               <b-form-group label="vegan ?" label-for="vegan-input">
                 <b-form-checkbox
                   id="vegan-input"
-                  value="true"
-                  unchecked-value="false"
+                  v-model="vegan"
+                  value="1"
+                  unchecked-value="0"
                 ></b-form-checkbox>
               </b-form-group>
 
               <b-form-group label="vegetarian ?" label-for="vegetarian-input">
                 <b-form-checkbox
                   id="vegetarian-input"
-                  value="true"
-                  unchecked-value="false"
+                  v-model="vegetarian"
+                  value="1"
+                  unchecked-value="0"
                 ></b-form-checkbox>
               </b-form-group>
 
               <b-form-group label="gluten free ?" label-for="glutenFree-input">
                 <b-form-checkbox
                   id="glutenFree-input"
-                  value="true"
-                  unchecked-value="false"
+                  v-model="glutenFree"
+                  value="1"
+                  unchecked-value="0"
                 ></b-form-checkbox>
               </b-form-group>
 
@@ -109,6 +115,7 @@
               >
                 <b-form-textarea
                   id="extendedIngredients-input"
+                  v-model="extendedIngredients"
                   :state="extendedIngredientsState"
                   required
                 ></b-form-textarea>
@@ -122,6 +129,7 @@
               >
                 <b-form-textarea
                   id="instructions-input"
+                  v-model="instructions"
                   :state="instructionsState"
                   required
                 ></b-form-textarea>
@@ -135,6 +143,7 @@
               >
                 <b-form-input
                   id="servings-input"
+                  v-model="servings"
                   :state="servingsState"
                   required
                 ></b-form-input>
@@ -175,14 +184,23 @@ export default {
   name: "App",
   data() {
     return {
+      title: "",
       titleState: null,
+      readyInMinutes: "",
       readyInMinutesState: null,
+      image: "",
       imageState: null,
+      vegan: "0",
       veganState: null,
+      vegetarian: "0",
       vegetarianState: null,
+      glutenFree: "0",
       glutenFreeState: null,
+      extendedIngredients: "",
       extendedIngredientsState: null,
+      instructions: "",
       instructionsState: null,
+      servings: "",
       servingsState: null,
     };
   },
@@ -210,6 +228,15 @@ export default {
       this.extendedIngredientsState = null;
       this.instructionsState = null;
       this.servingsState = null;
+      this.title = "";
+      this.readyInMinutes = "";
+      this.image = "";
+      this.vegan = "0";
+      this.vegetarian = "0";
+      this.glutenFree = "0";
+      this.extendedIngredients = "";
+      this.instructions = "";
+      this.servings = "";
     },
     handleOk(bvModalEvent) {
       // Prevent modal from closing
@@ -217,11 +244,45 @@ export default {
       // Trigger submit handler
       this.handleSubmit();
     },
-    handleSubmit() {
+    async handleSubmit() {
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
       }
+
+      // console.log(
+      //   this.title,
+      //   this.readyInMinutes,
+      //   this.image,
+      //   this.vegan,
+      //   this.vegetarian,
+      //   this.glutenFree,
+      //   this.extendedIngredients,
+      //   this.instructions,
+      //   this.servings
+      // );
+
+      try {
+        const response = await this.axios.post(
+          this.$root.store.server_domain + "/users/addRecipe",
+          {
+            title: this.title,
+            readyInMinutes: this.readyInMinutes,
+            image: this.image,
+            vegan: this.vegan,
+            vegetarian: this.vegetarian,
+            glutenFree: this.glutenFree,
+            extendedIngredients: this.extendedIngredients,
+            instructions: this.instructions,
+            servings: this.servings,
+          }
+        );
+        // console.log(response);
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("create");
