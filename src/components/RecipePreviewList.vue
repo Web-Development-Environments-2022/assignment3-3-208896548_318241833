@@ -12,14 +12,14 @@
     <div v-else-if="this.title == 'Explore this recipes'">
       <b-row v-for="r in recipes" :key="r.id">
         <b-col>
-          <RecipePreview class="recipePreview" :recipe="r" />
+          <RecipePreview class="recipePreview" :recipe="r" :title="title" />
         </b-col>
       </b-row>
     </div>
     <div v-else>
       <b-row v-for="r in recipes" :key="r.id">
         <b-col v-for="c in r" :key="c.id">
-          <RecipePreview class="recipePreview" :recipe="c" />
+          <RecipePreview class="recipePreview" :recipe="c" :title="title" />
         </b-col>
       </b-row>
     </div>

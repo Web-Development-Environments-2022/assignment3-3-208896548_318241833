@@ -1,14 +1,23 @@
 <template>
   <div>
-    <div v-if="$root.store.username">
-      <img
-        v-if="!isNaN(recipe.aggregateLikes)"
-        @click="AddToFavorites"
-        width="35"
-        height="35"
-        src="https://icon-library.com/images/favorite-icon-png/favorite-icon-png-1.jpg"
-      />
+    <div v-if="$root.store.username && !isNaN(recipe.aggregateLikes)">
+      <div v-if="favorite == 0">
+        <img
+          @click="AddToFavorites"
+          width="35"
+          height="35"
+          src="https://icon-library.com/images/favorite-icon-png/favorite-icon-png-1.jpg"
+        />
+      </div>
+      <div v-else>
+        <img
+          width="40"
+          height="40"
+          src="https://icon-library.com/images/favorite-icon/favorite-icon-1.jpg"
+        />
+      </div>
     </div>
+    <!-- add here -->
     <router-link
       :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
       class="recipe-preview"
@@ -51,20 +60,43 @@
 
 <script>
 export default {
+  data() {
+    return {
+      favorite: 0,
+    };
+  },
+  mounted() {
+    if (this.$root.store.username) {
+      this.inFavorites();
+    }
+  },
   methods: {
+    async inFavorites() {
+      // check if in favorites
+
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain +
+            "/users/inFavorites" +
+            "?recipeId=" +
+            this.recipe.id
+        );
+        this.favorite = response.data[0]["COUNT(*)"];
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+    },
     async AddToFavorites() {
       try {
         const response = await this.axios.post(
           this.$root.store.server_domain + "/users/favorites",
           {
             recipeId: this.recipe.id,
-            // withCredentials: true,
           }
         );
-
+        this.favorite = 1;
         console.log(response);
-        // this.$root.store.login(this.form.username);
-        // this.$router.push("/");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -76,30 +108,10 @@ export default {
       type: Object,
       required: true,
     },
-
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // readyInMinutes: {
-    //   type: Number,
-    //   required: true
-    // },
-    // image: {
-    //   type: String,
-    //   required: true
-    // },
-    // aggregateLikes: {
-    //   type: Number,
-    //   required: false,
-    //   default() {
-    //     return undefined;
-    //   }
-    // }
+    title: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
