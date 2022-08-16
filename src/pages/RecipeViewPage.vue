@@ -52,6 +52,21 @@ export default {
     };
   },
   async created() {
+    if (this.$root.store.username) {
+      try {
+        const response = await this.axios.post(
+          this.$root.store.server_domain + "/users/history",
+          {
+            recipeId: this.$route.params.recipeId,
+          }
+        );
+        console.log(response);
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+    }
+
     try {
       let response;
       // response = this.$route.params.response;
@@ -71,7 +86,7 @@ export default {
         this.$router.replace("/NotFound");
         return;
       }
-      console.log("response.data", response);
+
       let {
         id,
         title,

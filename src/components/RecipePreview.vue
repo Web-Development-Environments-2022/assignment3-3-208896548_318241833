@@ -102,7 +102,7 @@ export default {
           }
         );
         this.favorite = 1;
-        console.log(response);
+        // console.log(response);
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
