@@ -9,16 +9,18 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
+              <div>Owner: {{ recipe.owner }}</div>
+              <div>Cuisine: {{ recipe.cuisine }}</div>
+              <div>Occasion: {{ recipe.occasion }}</div>
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
             </div>
             Ingredients for {{ recipe.servings }} servings:
             <ul>
               <li
-                v-for="(r, index) in recipe.extendedIngredients"
+                v-for="r in recipe.extendedIngredients.split(',')"
                 :key="index + '_' + r.id"
               >
-                {{ r.original }}
+                {{ r }}
               </li>
             </ul>
           </div>
@@ -28,8 +30,8 @@
               <!-- {{
                 recipe._instructions
               }} -->
-              <li v-for="s in recipe._instructions" :key="s.number">
-                {{ s.step }}
+              <li v-for="s in recipe.instructions.split(',')" :key="s.number">
+                {{ s }}
               </li>
             </ol>
           </div>
@@ -60,10 +62,10 @@ export default {
         response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/recipes/info",
           this.$root.store.server_domain +
-            "/recipes/info?recipeId=" +
+            "/recipes/family/info?recipeId=" +
             this.$route.params.recipeId
         );
-
+        // console.log("res:", response.data[0]);
         // console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
@@ -71,42 +73,36 @@ export default {
         this.$router.replace("/NotFound");
         return;
       }
-      console.log("response.data", response);
+
       let {
         id,
+        owner,
         title,
+        occasion,
         readyInMinutes,
         image,
-        aggregateLikes,
+        cuisine,
         vegan,
         vegetarian,
         glutenFree,
         extendedIngredients,
         instructions,
-        analyzedInstructions,
         servings,
-      } = response.data;
-
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+      } = response.data[0];
 
       let _recipe = {
         id,
+        owner,
         title,
+        occasion,
         readyInMinutes,
         image,
-        aggregateLikes,
+        cuisine,
         vegan,
         vegetarian,
         glutenFree,
         extendedIngredients,
         instructions,
-        _instructions,
-        analyzedInstructions,
         servings,
       };
 

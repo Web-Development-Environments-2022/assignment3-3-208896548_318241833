@@ -19,7 +19,7 @@
     </div>
     <!-- add here -->
     <router-link
-      :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+      :to="{ name: this.to, params: { recipeId: recipe.id } }"
       class="recipe-preview"
     >
       <div class="recipe-body">
@@ -63,17 +63,23 @@ export default {
   data() {
     return {
       favorite: 0,
+      to: "recipe",
     };
   },
   mounted() {
     if (this.$root.store.username) {
       this.inFavorites();
     }
+
+    if (this.title == "Family Recipes") {
+      this.to = "view_family";
+    } else if (this.title == "My Recipes") {
+      this.to = "view_my_recipes";
+    }
   },
   methods: {
     async inFavorites() {
       // check if in favorites
-
       try {
         const response = await this.axios.get(
           this.$root.store.server_domain +
