@@ -6,7 +6,7 @@
     </h3>
     <div v-if="recipes.length == 0">
       <h3>
-        No results found
+        No recipes here yet
       </h3>
     </div>
     <div

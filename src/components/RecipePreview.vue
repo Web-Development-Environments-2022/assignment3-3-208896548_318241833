@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="pre">
     <div v-if="$root.store.username && !isNaN(recipe.aggregateLikes)">
       <div v-if="favorite == 0">
         <img
@@ -150,6 +150,10 @@ export default {
 </script>
 
 <style scoped>
+#pre {
+  border-radius: 5%;
+  border-style: groove;
+}
 .recipe-preview {
   display: inline-block;
   width: 300px;
