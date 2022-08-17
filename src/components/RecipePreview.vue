@@ -26,8 +26,15 @@
         <img :src="recipe.image" class="recipe-image" />
       </div>
       <div class="recipe-footer">
-        <div :title="recipe.title" class="recipe-title">
-          {{ recipe.title }}
+        <div v-if="history == 0" style="color:green;">
+          <div :title="recipe.title" class="recipe-title">
+            {{ recipe.title }}
+          </div>
+        </div>
+        <div v-else style="color:grey;">
+          <div :title="recipe.title" class="recipe-title">
+            {{ recipe.title }}
+          </div>
         </div>
         <ul class="recipe-overview">
           <li>{{ recipe.readyInMinutes }} minutes</li>
@@ -63,12 +70,17 @@ export default {
   data() {
     return {
       favorite: 0,
+      history: "blue",
       to: "recipe",
     };
   },
   mounted() {
     if (this.$root.store.username) {
       this.inFavorites();
+
+      if (this.title != "Family Recipes" && this.title != "My Recipes") {
+        this.inHistory();
+      }
     }
 
     if (this.title == "Family Recipes") {
@@ -78,6 +90,21 @@ export default {
     }
   },
   methods: {
+    async inHistory() {
+      // check if in history
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain +
+            "/users/inHistory" +
+            "?recipeId=" +
+            this.recipe.id
+        );
+        this.history = response.data[0]["COUNT(*)"];
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+    },
     async inFavorites() {
       // check if in favorites
       try {
@@ -129,6 +156,7 @@ export default {
   height: 200px;
   position: relative;
   margin: 10px 10px;
+  color: blue;
 }
 .recipe-preview > .recipe-body {
   width: 100%;

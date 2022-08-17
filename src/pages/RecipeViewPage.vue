@@ -60,7 +60,7 @@ export default {
             recipeId: this.$route.params.recipeId,
           }
         );
-        console.log(response);
+        // console.log(response);
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;

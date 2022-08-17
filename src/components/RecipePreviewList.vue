@@ -9,7 +9,12 @@
         No results found
       </h3>
     </div>
-    <div v-else-if="this.title == 'Explore this recipes'">
+    <div
+      v-else-if="
+        this.title == 'Explore this recipes' ||
+          this.title == 'Last Viewed Recipes'
+      "
+    >
       <b-row v-for="r in recipes" :key="r.id">
         <b-col>
           <RecipePreview class="recipePreview" :recipe="r" :title="title" />
@@ -87,6 +92,8 @@ export default {
         await this.favoriteRecipes();
       } else if (this.title == "My Recipes") {
         await this.myRecipes();
+      } else if (this.title == "Last Viewed Recipes") {
+        await this.myHistory();
       }
     },
     async randomRecipes() {
@@ -171,6 +178,19 @@ export default {
         }
         // console.log(res);
         this.recipes = res;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async myHistory() {
+      try {
+        const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/history"
+        );
+        // console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
       } catch (error) {
         console.log(error);
       }
